@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apostila de Astronomia — 6º Ano</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Nunito:wght@300;400;600;700;800&display=swap');
+
+:root {
+  --space-black: #0a0a1a;
+  --deep-blue: #0d1b2a;
+  --neon-cyan: #00d4ff;
+  --neon-purple: #b347d9;
+  --neon-pink: #ff6b9d;
+  --neon-gold: #ffd700;
+  --star-white: #e8f4f8;
+  --glass: rgba(255,255,255,0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--space-black);
+  color: var(--star-white);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ===== STARFIELD BACKGROUND ===== */
+#starfield {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--duration) ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 6px rgba(255,255,255,0.8); }
+}
+
+.shooting-star {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, white, transparent);
+  animation: shoot 3s linear infinite;
+  opacity: 0;
+}
+
+@keyframes shoot {
+  0% { transform: translateX(-100px) translateY(0); opacity: 1; }
+  100% { transform: translateX(400px) translateY(200px); opacity: 0; }
+}
+
+/* ===== FLOATING PLANETS ===== */
+.planet {
+  position: fixed;
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+.planet-1 {
+  width: 120px; height: 120px;
+  top: 10%; right: 5%;
+  background: radial-gradient(circle at 30% 30%, #ff8c42, #d44000);
+  box-shadow: 0 0 40px rgba(255,140,66,0.3), inset -10px -10px 20px rgba(0,0,0,0.5);
+  animation: float 20s ease-in-out infinite;
+}
+
+.planet-2 {
+  width: 80px; height: 80px;
+  bottom: 15%; left: 3%;
+  background: radial-gradient(circle at 30% 30%, #4ecdc4, #1a5f5a);
+  box-shadow: 0 0 30px rgba(78,205,196,0.3), inset -8px -8px 15px rgba(0,0,0,0.5);
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.planet-3 {
+  width: 60px; height: 60px;
+  top: 50%; right: 8%;
+  background: radial-gradient(circle at 30% 30%, #a8e6cf, #56ab91);
+  box-shadow: 0 0 25px rgba(168,230,207,0.3);
+  animation: float 18s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(5deg); }
+  66% { transform: translateY(15px) rotate(-3deg); }
+}
+
+/* ===== HEADER ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 600px; height: 600px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+}
+
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 20px rgba(0,212,255,0.3));
+  animation: glow 3s ease-in-out infinite alternate;
+  letter-spacing: 2px;
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 10px rgba(0,212,255,0.3)); }
+  to { filter: drop-shadow(0 0 30px rgba(179,71,217,0.5)); }
+}
+
+.hero .subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--neon-gold);
+  margin-top: 1rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.hero .tagline {
+  font-size: 1.2rem;
+  color: rgba(232,244,248,0.7);
+  margin-top: 0.5rem;
+  font-weight: 300;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  animation: bounce 2s infinite;
+  font-size: 2rem;
+  color: var(--neon-cyan);
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(15px); }
+}
+
+/* ===== CONTENT ===== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.module {
+  margin: 4rem 0;
+  padding: 2.5rem;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.module:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(0,212,255,0.1);
+}
+
+.module::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+}
+
+.module-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  color: var(--neon-cyan);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.module h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  color: var(--neon-gold);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px rgba(255,215,0,0.3);
+}
+
+.module h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  color: var(--neon-cyan);
+  margin: 2rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.module h3::before {
+  content: '◆';
+  color: var(--neon-purple);
+  font-size: 0.8rem;
+}
+
+.module h4 {
+  color: var(--neon-pink);
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.module p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+/* ===== TABLES ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th {
+  background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(179,71,217,0.2));
+  color: var(--neon-gold);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 1rem;
+  text-align: left;
+}
+
+td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
+tr:hover {
+  background: rgba(0,212,255,0.05);
+  transition: background 0.3s;
+}
+
+/* ===== CALLOUTS ===== */
+.tip {
+  background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(0,212,255,0.02));
+  border-left: 4px solid var(--neon-cyan);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 12px 12px 0;
+  position: relative;
+}
+
+.tip::before {
+  content: '💡';
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.warning {
+  background: linear-gradient(135deg, rgba(255,107,157,0.1), rgba(255,107,157,0.02));
+  border-left: 4px solid var(--neon-pink);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 12px 12px 0;
+}
+
+.warning::before {
+  content: '⚠️';
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* ===== ORBIT DIAGRAMS ===== */
+.orbit-demo {
+  width: 200px;
+  height: 200px;
+  margin: 2rem auto;
+  position: relative;
+}
+
+.orbit-path {
+  width: 180px;
+  height: 120px;
+  border: 2px dashed rgba(0,212,255,0.3);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-sun {
+  width: 30px; height: 30px;
+  background: radial-gradient(circle, var(--neon-gold), #ff8c00);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 30%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px rgba(255,215,0,0.5);
+}
+
+.orbit-planet {
+  width: 15px; height: 15px;
+  background: var(--neon-cyan);
+  border-radius: 50%;
+  position: absolute;
+  top: 20%; left: 80%;
+  box-shadow: 0 0 10px var(--neon-cyan);
+  animation: orbit 8s linear infinite;
+}
+
+@keyframes orbit {
+  0% { top: 20%; left: 80%; }
+  25% { top: 80%; left: 80%; }
+  50% { top: 80%; left: 20%; }
+  75% { top: 20%; left: 20%; }
+  100% { top: 20%; left: 80%; }
+}
+
+/* ===== PHASE MOON ===== */
+.moon-phase {
+  display: inline-block;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #333 50%, var(--neon-gold) 50%);
+  margin: 0 0.3rem;
+  vertical-align: middle;
+  box-shadow: 0 0 10px rgba(255,215,0,0.3);
+}
+
+/* ===== QUESTIONS SECTION ===== */
+.questions {
+  background: linear-gradient(135deg, rgba(179,71,217,0.1), rgba(0,212,255,0.05));
+  border: 2px solid rgba(179,71,217,0.3);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin: 3rem 0;
+}
+
+.questions h2 {
+  color: var(--neon-purple);
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.question-block {
+  margin: 1.5rem 0;
+  padding: 1.2rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border-left: 3px solid var(--neon-gold);
+}
+
+.question-block h4 {
+  color: var(--neon-gold);
+  margin-bottom: 0.5rem;
+}
+
+.question-block ol {
+  padding-left: 1.5rem;
+}
+
+.question-block li {
+  margin: 0.5rem 0;
+  color: rgba(232,244,248,0.9);
+}
+
+/* ===== FINAL TIPS ===== */
+.final-tips {
+  background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(255,107,157,0.08));
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.final-tips h2 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-gold);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.tip-card {
+  background: rgba(0,0,0,0.3);
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s;
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 10px 30px rgba(0,212,255,0.1);
+}
+
+.tip-card .number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: var(--neon-cyan);
+  margin-bottom: 0.5rem;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.5));
+  margin-top: 4rem;
+}
+
+footer .rocket {
+  font-size: 3rem;
+  animation: rocket-float 3s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes rocket-float {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+footer p {
+  color: rgba(232,244,248,0.5);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .module { padding: 1.5rem; }
+  table { font-size: 0.85rem; }
+  th, td { padding: 0.6rem; }
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--space-black); }
+::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+</style>
+</head>
+<body>
+
+<!-- Starfield Background -->
+<div id="starfield"></div>
+
+<!-- Floating Planets -->
+<div class="planet planet-1"></div>
+<div class="planet planet-2"></div>
+<div class="planet planet-3"></div>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h1>🚀 APOSTILA DE ASTRONOMIA</h1>
+  <p class="subtitle">Navegando pelo Cosmos</p>
+  <p class="tagline">Preparação para Olimpíadas — 6º Ano do Ensino Fundamental</p>
+  <div class="scroll-indicator">▼</div>
+</section>
+
+<div class="container">
+
+<!-- MÓDULO 1 -->
+<div class="module fade-in">
+  <div class="module-number">Módulo 01</div>
+  <h2>🌍 O Planeta Terra — Nossa Nave Espacial</h2>
+
+  <h3>1.1 Estrutura e Forma</h3>
+  <p><strong>A Terra não é uma esfera perfeita!</strong> Ela é um <strong>geoide</strong> — uma forma levemente achatada nos polos e "gorda" no equador. Imagine uma laranja que você apertou um pouco nos dois extremos: é assim que a Terra é!</p>
+
+  <h4>Por que a Terra tem essa forma?</h4>
+  <p>A Terra gira rapidamente em torno de seu eixo (a <strong>1.674 km/h</strong> no equador!). Essa rotação cria uma força chamada <strong>força centrífuga</strong>, que "empurra" a matéria para fora no meio do planeta, deixando-o mais largo na região do equador.</p>
+
+  <h4>A Estrutura Interna da Terra</h4>
+  <p>A Terra é como uma cebola: tem camadas! Cientistas descobriram essas camadas estudando <strong>ondas sísmicas</strong> (ondas de choque geradas por terremotos).</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Camada</th>
+        <th>Espessura</th>
+        <th>Composição</th>
+        <th>Temperatura</th>
+        <th>Características</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Crosta</strong></td>
+        <td>5-70 km</td>
+        <td>Rochas (Si, Al, O)</td>
+        <td>15°C a 500°C</td>
+        <td>A "casca" onde vivemos. Mais fina sob os oceanos.</td>
+      </tr>
+      <tr>
+        <td><strong>Manto</strong></td>
+        <td>2.900 km</td>
+        <td>Rochas silicatadas</td>
+        <td>500°C a 4.000°C</td>
+        <td>Camada pastosa. O magma vem daqui!</td>
+      </tr>
+      <tr>
+        <td><strong>Núcleo Externo</strong></td>
+        <td>2.200 km</td>
+        <td>Fe e Ni líquidos</td>
+        <td>4.000°C a 5.000°C</td>
+        <td>Gera o <strong>campo magnético</strong> que nos protege!</td>
+      </tr>
+      <tr>
+        <td><strong>Núcleo Interno</strong></td>
+        <td>1.200 km</td>
+        <td>Fe e Ni sólidos</td>
+        <td>5.000°C a 6.000°C</td>
+        <td>Tão quente quanto o Sol, mas sólido pela pressão!</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Curiosidade de Olimpíada:</strong> O campo magnético da Terra é como um escudo gigante! Ele desvia partículas carregadas do vento solar que poderiam destruir a atmosfera e a vida na Terra. Sem o núcleo de ferro derretido, não teríamos esse escudo!
+  </div>
+
+  <h3>1.2 Movimentos e Tempo</h3>
+  <p>A Terra realiza <strong>dois movimentos principais</strong> que definem nossa vida:</p>
+
+  <h4>🔄 ROTAÇÃO — O Giro da Terra em Torno de Si Mesma</h4>
+  <p><strong>O que é?</strong> A Terra gira em torno de um eixo imaginário que vai do Polo Norte ao Polo Sul, como um pião girando.</p>
+  <p><strong>Quanto dura?</strong> 23h 56min 4s (dia sideral). Por convenção, usamos <strong>24 horas</strong> (dia solar).</p>
+  <p><strong>Sentido:</strong> Anti-horário (de Oeste para Leste). Por isso, o Sol nasce no Leste e se põe no Oeste!</p>
+  <p><strong>Velocidade:</strong> 1.674 km/h no equador.</p>
+  <p><strong>Consequências:</strong> Dia e Noite, movimento aparente do Sol, efeito Coriolis.</p>
+
+  <h4>🌍 TRANSLAÇÃO — A Volta da Terra em Torno do Sol</h4>
+  <p><strong>O que é?</strong> A Terra "viaja" em uma órbita elíptica ao redor do Sol.</p>
+  <p><strong>Quanto dura?</strong> 365 dias, 5h e 48min. Por isso, a cada 4 anos temos o <strong>ano bissexto</strong>!</p>
+  <p><strong>Velocidade:</strong> 107.000 km/h.</p>
+  <p><strong>Distância do Sol:</strong> Periélio (147,1 milhões de km) e Afélio (152,1 milhões de km).</p>
+
+  <div class="warning">
+    <strong>Importante para Olimpíada:</strong> As estações do ano <strong>NÃO</strong> acontecem porque a Terra fica mais perto ou mais longe do Sol! Acontecem por causa da <strong>inclinação do eixo</strong> (23,5°).
+  </div>
+
+  <h4>As Estações do Ano</h4>
+  <p>O eixo da Terra está "torto" — inclinado 23,5° em relação à vertical. Isso faz com que, durante a translação, cada hemisfério receba mais ou menos luz solar:</p>
+
+  <table>
+    <thead>
+      <tr><th>Posição</th><th>Data (Sul)</th><th>Data (Norte)</th><th>O que acontece</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Solstício de Verão</strong></td><td>21 de dezembro</td><td>21 de junho</td><td>Sol mais alto. Dias mais longos.</td></tr>
+      <tr><td><strong>Equinócio de Outono</strong></td><td>20 de março</td><td>22 de setembro</td><td>Dia e noite com 12h cada.</td></tr>
+      <tr><td><strong>Solstício de Inverno</strong></td><td>21 de junho</td><td>21 de dezembro</td><td>Sol mais baixo. Noites mais longas.</td></tr>
+      <tr><td><strong>Equinócio de Primavera</strong></td><td>22 de setembro</td><td>20 de março</td><td>Dia e noite com 12h cada.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> Quando é verão no Hemisfério Sul, é inverno no Hemisfério Norte! Os equinócios acontecem quando o eixo da Terra não está inclinado nem para o Sol, nem para longe dele.
+  </div>
+
+  <h3>1.3 Coordenadas e Orientação</h3>
+  <p>Para nos localizarmos no planeta, criamos um sistema de coordenadas imaginárias:</p>
+
+  <h4>O Equador (0° de Latitude)</h4>
+  <p>Linha imaginária que divide a Terra em <strong>Hemisfério Norte</strong> e <strong>Hemisfério Sul</strong>. É o ponto mais "gordo" da Terra. Regiões próximas ao equador são mais quentes porque recebem luz solar mais direta.</p>
+
+  <h4>O Meridiano de Greenwich (0° de Longitude)</h4>
+  <p>Linha imaginária que divide a Terra em <strong>Hemisfério Leste</strong> e <strong>Hemisfério Oeste</strong>. Passa por Greenwich, na Inglaterra. A partir dele, contamos 180° para Leste e 180° para Oeste.</p>
+
+  <h4>A Bússola e o Norte Magnético</h4>
+  <p>A bússola aponta para o <strong>Norte Magnético</strong>, que não é exatamente o <strong>Norte Geográfico</strong> (Polo Norte). Eles estão separados por cerca de 500 km! Isso acontece porque o campo magnético da Terra não está perfeitamente alinhado com o eixo de rotação.</p>
+
+  <div class="tip">
+    <strong>Curiosidade:</strong> O Polo Norte Magnético se move! Nos últimos 100 anos, ele se deslocou mais de 1.000 km em direção à Rússia.
+  </div>
+</div>
+
+<!-- MÓDULO 2 -->
+<div class="module fade-in">
+  <div class="module-number">Módulo 02</div>
+  <h2>🌙 A Lua e o Sol — Nossos Vizinhos</h2>
+
+  <h3>2.1 As Fases da Lua</h3>
+  <p><strong>A Lua não brilha sozinha!</strong> Ela reflete a luz do Sol, assim como um espelho. O que vemos do Brasil é sempre a mesma face da Lua (chamada de "face visível"). A outra face é a "face oculta".</p>
+
+  <h4>O Ciclo Lunar (Lunação)</h4>
+  <p>O ciclo completo dura cerca de <strong>29,5 dias</strong> (um mês sinódico). Durante esse tempo, a Lua passa por 8 fases:</p>
+
+  <table>
+    <thead>
+      <tr><th>Fase</th><th>Descrição</th><th>Quando ocorre</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Lua Nova</strong> 🌑</td><td>Face iluminada virada para o Sol. Não vemos nada.</td><td>Começo do ciclo</td></tr>
+      <tr><td><strong>Lua Crescente</strong> 🌒</td><td>Fina fatia iluminada (como um "C" invertido).</td><td>3-4 dias depois</td></tr>
+      <tr><td><strong>Quarto Crescente</strong> 🌓</td><td>Metade da Lua visível.</td><td>~7 dias</td></tr>
+      <tr><td><strong>Crescente Gibosa</strong> 🌔</td><td>Mais da metade iluminada.</td><td>~10 dias</td></tr>
+      <tr><td><strong>Lua Cheia</strong> 🌕</td><td>Face toda iluminada. Terra entre Sol e Lua.</td><td>~14-15 dias</td></tr>
+      <tr><td><strong>Minguante Gibosa</strong> 🌖</td><td>Começa a "diminuir".</td><td>~17-18 dias</td></tr>
+      <tr><td><strong>Quarto Minguante</strong> 🌗</td><td>Metade visível (outro lado).</td><td>~22 dias</td></tr>
+      <tr><td><strong>Lua Minguante</strong> 🌘</td><td>Só uma fatia (como um "C" normal).</td><td>~25-26 dias</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> Para saber se a Lua está crescente ou minguante, use a regra do "C" e do "D":
+    <br>• <strong>Crescente = C de "Crescendo"</strong> (a iluminação forma um "C" invertido 🌒)
+    <br>• <strong>Minguante = D de "Diminuindo"</strong> (a iluminação forma um "D" 🌘)
+  </div>
+
+  <h3>2.2 Eclipses</h3>
+  <p>Eclipses acontecem quando o Sol, a Terra e a Lua se alinham perfeitamente em linha reta.</p>
+
+  <h4>🌑 Eclipse Solar</h4>
+  <p><strong>Quando:</strong> Lua Nova (a Lua está entre a Terra e o Sol).</p>
+  <p><strong>O que acontece:</strong> A Lua bloqueia a luz do Sol, projetando uma sombra na Terra.</p>
+  <p><strong>Tipos:</strong> Total (100% coberto), Parcial (parte coberta), Anular ("anel de fogo").</p>
+
+  <div class="warning">
+    <strong>Atenção:</strong> NUNCA olhe diretamente para um eclipse solar sem óculos especiais! O Sol é tão brilhante que pode queimar sua retina.
+  </div>
+
+  <h4>🌕 Eclipse Lunar</h4>
+  <p><strong>Quando:</strong> Lua Cheia (a Terra está entre o Sol e a Lua).</p>
+  <p><strong>O que acontece:</strong> A Terra bloqueia a luz do Sol, mas a atmosfera terrestre refrata a luz vermelha para a Lua. Por isso, a Lua fica avermelhada — chamamos de <strong>"Lua de Sangue"</strong>!</p>
+
+  <div class="tip">
+    <strong>Curiosidade:</strong> Eclipses lunares são seguros de observar a olho nu e podem ser vistos de qualquer lugar da Terra onde esteja noite!
+  </div>
+
+  <h3>2.3 As Marés</h3>
+  <p>As marés são a <strong>subida e descida</strong> do nível do mar, que acontecem duas vezes por dia na maioria dos lugares.</p>
+
+  <h4>Por que as marés acontecem?</h4>
+  <p>A <strong>força gravitacional</strong> da Lua (e, em menor parte, do Sol) "puxa" a água dos oceanos:</p>
+  <ol>
+    <li><strong>Maré Alta:</strong> A água é atraída em direção à Lua.</li>
+    <li><strong>Maré Alta (do outro lado):</strong> A Terra é puxada pela Lua, mas a água "fica para trás".</li>
+    <li><strong>Maré Baixa:</strong> Nos lados perpendiculares à Lua, a água "escorre".</li>
+  </ol>
+
+  <h4>Marés de Sizígia e de Quadratura</h4>
+  <p><strong>Marés de Sizígia (mais altas):</strong> Quando Sol, Lua e Terra estão alinhados (Lua Nova ou Cheia). A gravidade do Sol e da Lua se somam!</p>
+  <p><strong>Marés de Quadratura (mais baixas):</strong> Quando o Sol e a Lua formam um ângulo de 90° (Quartos). As forças se compensam.</p>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> O Sol também causa marés, mas como está muito mais longe, sua influência é cerca de <strong>metade</strong> da da Lua. A Lua domina as marés porque está muito mais perto da Terra!
+  </div>
+</div>
+
+<!-- MÓDULO 3 -->
+<div class="module fade-in">
+  <div class="module-number">Módulo 03</div>
+  <h2>🪐 O Sistema Solar e o Universo</h2>
+
+  <h3>3.1 Moradores do Sistema Solar</h3>
+  <p>O Sistema Solar é uma "família" com o Sol como chefe. Ele representa <strong>99,86%</strong> de toda a massa do sistema!</p>
+
+  <h4>O Sol ☀️</h4>
+  <p><strong>Tipo:</strong> Estrela amarela-anã (classe G2V). <strong>Temperatura:</strong> 5.500°C na superfície, 15 milhões de°C no núcleo. <strong>Composição:</strong> 73% hidrogênio, 25% hélio. O Sol "queima" hidrogênio em hélio por <strong>fusão nuclear</strong> (4 milhões de toneladas de massa convertidas em energia a cada segundo!).</p>
+
+  <h4>Os Planetas</h4>
+
+  <h4>🪨 PLANETAS ROCHOSOS (Telúricos)</h4>
+  <table>
+    <thead>
+      <tr><th>Planeta</th><th>Distância do Sol</th><th>Características Principais</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Mercúrio</strong></td><td>0,39 UA</td><td>Menor planeta. Sem atmosfera. Temperatura: -170°C a 430°C. Ano de 88 dias.</td></tr>
+      <tr><td><strong>Vênus</strong></td><td>0,72 UA</td><td>O mais quente (465°C) — efeito estufa descontrolado. Gira ao contrário! Dia mais longo que o ano!</td></tr>
+      <tr><td><strong>Terra</strong></td><td>1 UA</td><td>Único com água líquida e vida conhecida. Atmosfera de N₂ e O₂.</td></tr>
+      <tr><td><strong>Marte</strong></td><td>1,52 UA</td><td>O "planeta vermelho" (ferro enferrujado). Maior vulcão do Sistema Solar (Monte Olimpo).</td></tr>
+    </tbody>
+  </table>
+
+  <h4>🪐 PLANETAS GASOSOS (Jovianos)</h4>
+  <table>
+    <thead>
+      <tr><th>Planeta</th><th>Distância do Sol</th><th>Características Principais</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Júpiter</strong></td><td>5,2 UA</td><td>Maior planeta. <strong>Grande Mancha Vermelha</strong> (tempestade há 300+ anos!). 95 luas.</td></tr>
+      <tr><td><strong>Saturno</strong></td><td>9,5 UA</td><td>Famoso pelos <strong>anéis</strong> (poeira, gelo e rocha). 145 luas! Flutuaria na água!</td></tr>
+      <tr><td><strong>Urano</strong></td><td>19,2 UA</td><td>Gira "deitado" (inclinação de 98°)! Anéis verticais. Atmosfera de metano.</td></tr>
+      <tr><td><strong>Netuno</strong></td><td>30,1 UA</td><td>Ventos mais rápidos do Sistema Solar (2.100 km/h!). Cor azul intenso.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> Plutão foi reclassificado como <strong>planeta-anão</strong> em 2006 pela IAU. Para ser planeta, precisa: (1) orbitar o Sol, (2) ser esférico, (3) ter "limpo" sua órbita. Plutão falha no item 3 — sua órbita cruza com a de Netuno!
+  </div>
+
+  <h4>Outros Habitantes</h4>
+  <p><strong>Asteroides:</strong> Rochas espaciais, principalmente no Cinturão de Asteroides (entre Marte e Júpiter).</p>
+  <p><strong>Cometas:</strong> "Bolas de neve sujas" de gelo, poeira e rocha. Quando se aproximam do Sol, o gelo evapora formando a <strong>cauda</strong> (sempre aponta para longe do Sol!).</p>
+  <p><strong>Meteoroides / Meteoros / Meteoritos:</strong> Pequenas rochas no espaço → brilho no céu → rocha que cai na Terra.</p>
+
+  <h3>3.2 Origem e Escalas do Universo</h3>
+
+  <h4>O Big Bang</h4>
+  <p>O Universo surgiu há cerca de <strong>13,8 bilhões de anos</strong> em uma explosão cósmica chamada <strong>Big Bang</strong>. Não foi uma explosão no espaço, mas uma expansão DO próprio espaço!</p>
+
+  <p><strong>Evidências do Big Bang:</strong></p>
+  <ol>
+    <li><strong>Expansão do Universo:</strong> Galáxias estão se afastando umas das outras.</li>
+    <li><strong>Radiação Cósmica de Fundo:</strong> "Ecos" de calor do início do Universo.</li>
+    <li><strong>Abundância de elementos leves:</strong> Hidrogênio e hélio nas proporções previstas.</li>
+  </ol>
+
+  <h4>Unidades de Distância Astronômica</h4>
+  <table>
+    <thead>
+      <tr><th>Unidade</th><th>Símbolo</th><th>Definição</th><th>Exemplo de Uso</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Unidade Astronômica</strong></td><td>UA</td><td>Distância média Terra-Sol (~150 milhões de km)</td><td>Distâncias no Sistema Solar</td></tr>
+      <tr><td><strong>Ano-luz</strong></td><td>al</td><td>Distância que a luz percorre em 1 ano (~9,5 trilhões de km)</td><td>Distâncias entre estrelas</td></tr>
+      <tr><td><strong>Parsec</strong></td><td>pc</td><td>~3,26 anos-luz</td><td>Usado pelos astrônomos</td></tr>
+      <tr><td><strong>Segundo-luz</strong></td><td>—</td><td>300.000 km</td><td>Velocidade da luz</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> A luz do Sol leva <strong>8 minutos e 20 segundos</strong> para chegar à Terra. Se o Sol apagasse agora, só saberíamos daqui a 8 minutos! A luz de Proxima Centauri leva <strong>4,2 anos</strong> para chegar.
+  </div>
+</div>
+
+<!-- MÓDULO 4 -->
+<div class="module fade-in">
+  <div class="module-number">Módulo 04</div>
+  <h2>⚛️ Física Espacial e Gravitação</h2>
+
+  <h3>4.1 As Leis de Kepler</h3>
+  <p>Johannes Kepler (1571-1630), astrônomo alemão, descobriu três leis que descrevem como os planetas se movem. Ele usou dados precisos do astrônomo Tycho Brahe!</p>
+
+  <h4>1ª Lei — Lei das Órbitas</h4>
+  <p><em>"Os planetas descrevem órbitas elípticas, com o Sol em um dos focos."</em></p>
+  <p><strong>O que é uma elipse?</strong> Imagine esticar um barbante com dois pregos (os <strong>focos</strong>) e desenhar com um lápis mantendo o barbante esticado. A Terra tem uma órbita quase circular, mas é tecnicamente uma elipse.</p>
+
+  <div class="orbit-demo">
+    <div class="orbit-path"></div>
+    <div class="orbit-sun"></div>
+    <div class="orbit-planet"></div>
+  </div>
+
+  <h4>2ª Lei — Lei das Áreas</h4>
+  <p><em>"O raio vetor varre áreas iguais em tempos iguais."</em></p>
+  <p><strong>O que isso significa?</strong> Quando o planeta está perto do Sol, ele corre mais rápido! Quando está longe, anda mais devagar.</p>
+
+  <table>
+    <thead>
+      <tr><th>Posição</th><th>Nome</th><th>Velocidade</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mais próximo do Sol</td><td><strong>Periélio</strong></td><td>Mais rápida</td></tr>
+      <tr><td>Mais distante do Sol</td><td><strong>Afélio</strong></td><td>Mais lenta</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Analogia:</strong> Imagine uma bailarina girando. Quando ela aproxima os braços do corpo (periélio), gira mais rápido. Quando abre os braços (afélio), gira mais devagar. É a <strong>conservação do momento angular</strong>!
+  </div>
+
+  <h4>3ª Lei — Lei dos Períodos</h4>
+  <p><em>"O quadrado do período orbital é proporcional ao cubo da distância média ao Sol."</em></p>
+  <p><strong>Fórmula:</strong> T²/R³ = constante (para todos os planetas!)</p>
+  <p><strong>O que isso significa?</strong> Quanto mais longe do Sol, mais tempo o planeta leva para completar a órbita:</p>
+
+  <table>
+    <thead>
+      <tr><th>Planeta</th><th>Distância (UA)</th><th>Período Orbital</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mercúrio</td><td>0,39</td><td>88 dias</td></tr>
+      <tr><td>Terra</td><td>1,00</td><td>1 ano</td></tr>
+      <tr><td>Marte</td><td>1,52</td><td>1,88 anos</td></tr>
+      <tr><td>Júpiter</td><td>5,20</td><td>11,86 anos</td></tr>
+      <tr><td>Netuno</td><td>30,1</td><td>164,8 anos</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> Isaac Newton, 80 anos depois de Kepler, explicou POR QUE as leis de Kepler funcionam: a <strong>Lei da Gravitação Universal</strong>! A gravidade é a força que mantém os planetas em órbita.
+  </div>
+
+  <h3>4.2 Gravidade e Peso</h3>
+
+  <h4>Massa vs. Peso</h4>
+  <table>
+    <thead>
+      <tr><th>Conceito</th><th>Definição</th><th>Muda de planeta?</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Massa</strong></td><td>Quantidade de matéria (kg)</td><td>❌ NÃO! É a mesma em qualquer lugar.</td></tr>
+      <tr><td><strong>Peso</strong></td><td>Força da gravidade (Newtons, N)</td><td>✅ SIM! Depende da gravidade do local.</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Fórmula:</strong> Peso = Massa × Gravidade (P = m × g)</p>
+
+  <h4>Gravidade em diferentes planetas</h4>
+  <table>
+    <thead>
+      <tr><th>Local</th><th>Gravidade (m/s²)</th><th>Se você pesa 30 kg na Terra...</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Terra</td><td>9,8</td><td>30 kg (referência)</td></tr>
+      <tr><td>Lua</td><td>1,6</td><td>~5 kg (1/6 do peso!)</td></tr>
+      <tr><td>Marte</td><td>3,7</td><td>~11 kg</td></tr>
+      <tr><td>Júpiter</td><td>24,8</td><td>~76 kg</td></tr>
+      <tr><td>Sol</td><td>274</td><td>~840 kg (esmagado!)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Curiosidade:</strong> Astronautas na Lua parecem "flutuar" porque pesam 1/6 do que pesam na Terra. Mas sua massa continua a mesma! A inércia depende da massa, não do peso.
+  </div>
+
+  <h4>A Lei da Gravitação Universal (Newton)</h4>
+  <p><em>"Dois corpos se atraem com uma força proporcional ao produto de suas massas e inversamente proporcional ao quadrado da distância entre eles."</em></p>
+  <p><strong>F = G × (M × m) / d²</strong></p>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> A Lua não "cai" na Terra porque está em <strong>queda livre constante</strong>! Ela cai em direção à Terra, mas sua velocidade lateral é tão grande que sempre "erra" a Terra, completando uma órbita.
+  </div>
+</div>
+
+<!-- MÓDULO 5 -->
+<div class="module fade-in">
+  <div class="module-number">Módulo 05</div>
+  <h2>🛰️ Astronáutica e Céu Noturno</h2>
+
+  <h3>5.1 A Conquista do Espaço</h3>
+
+  <h4>Linha do Tempo da Exploração Espacial</h4>
+  <table>
+    <thead>
+      <tr><th>Ano</th><th>Evento</th><th>Importância</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1957</td><td><strong>Sputnik 1</strong> (URSS)</td><td>Primeiro satélite artificial da história.</td></tr>
+      <tr><td>1961</td><td><strong>Yuri Gagarin</strong> (URSS)</td><td>Primeiro ser humano no espaço.</td></tr>
+      <tr><td>1969</td><td><strong>Apollo 11</strong> (EUA)</td><td>Neil Armstrong e Buzz Aldrin — primeiros na Lua.</td></tr>
+      <tr><td>1977</td><td><strong>Voyager 1 e 2</strong></td><td>Visitaram Júpiter, Saturno, Urano e Netuno. Hoje no espaço interestelar!</td></tr>
+      <tr><td>1990</td><td><strong>Telescópio Hubble</strong></td><td>Revolucionou a astronomia com imagens do espaço profundo.</td></tr>
+      <tr><td>1998</td><td><strong>ISS</strong></td><td>Laboratório orbital internacional.</td></tr>
+      <tr><td>2012</td><td><strong>Curiosity</strong> (NASA)</td><td>Robô em Marte buscando sinais de vida.</td></tr>
+      <tr><td>2021</td><td><strong>James Webb</strong></td><td>Mais potente telescópio já construído.</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Satélites Artificiais</h4>
+  <p>Satélites são essenciais para:</p>
+  <ul>
+    <li><strong>GPS:</strong> Sistema de Posicionamento Global (usa pelo menos 24 satélites).</li>
+    <li><strong>Comunicação:</strong> Telefones, internet, TV.</li>
+    <li><strong>Previsão do Tempo:</strong> Fotografam nuvens e medem temperaturas.</li>
+    <li><strong>Observação da Terra:</strong> Monitoram desmatamento, queimadas, urbanização.</li>
+  </ul>
+
+  <div class="tip">
+    <strong>Curiosidade:</strong> Existem mais de 8.000 satélites orbitando a Terra, mas apenas cerca de 3.000 ainda funcionam. O restante é "lixo espacial"!
+  </div>
+
+  <h3>5.2 Reconhecimento do Céu</h3>
+  <p>As <strong>constelações</strong> são agrupamentos aparentes de estrelas. Na verdade, as estrelas de uma constelação estão a distâncias muito diferentes — elas só parecem próximas porque vemos o céu em 2D!</p>
+
+  <h4>⭐ Cruzeiro do Sul (Crux)</h4>
+  <p>A constelação mais famosa do Hemisfério Sul! Forma uma cruz de 4 estrelas principais.</p>
+  <p><strong>Como achar o Sul:</strong> A Cruz aponta para o <strong>Polo Sul Celeste</strong>. Imagine uma linha alongando a "haste" da cruz 4,5 vezes — ali está o Sul aproximado!</p>
+  <p><strong>Curiosidade:</strong> Está na bandeira do Brasil, Austrália e Nova Zelândia.</p>
+
+  <h4>⭐ Órion (O Caçador)</h4>
+  <p>Visível no céu de inverno no Hemisfério Sul. Destaca-se por três estrelas alinhadas: as <strong>Três Marias</strong> (cinturão de Órion).</p>
+  <p><strong>Betelgeuse:</strong> Estrela vermelha supergigante. <strong>Rigel:</strong> Estrela azul brilhante. <strong>Nebulosa de Órion:</strong> Região onde nascem novas estrelas.</p>
+
+  <h4>⭐ Escorpião (Scorpius)</h4>
+  <p>Constelação em forma de escorpião! 🦂</p>
+  <p><strong>Antares:</strong> Estrela supergigante vermelha no "coração". Seu nome significa "rival de Marte" (por ser tão vermelha!). Uma das constelações mais antigas catalogadas.</p>
+
+  <div class="tip">
+    <strong>Dica de Olimpíada:</strong> O céu muda conforme as estações e a hora da noite. Isso acontece porque a Terra está em constante movimento de rotação e translação!
+  </div>
+</div>
+
+<!-- QUESTÕES -->
+<div class="questions fade-in">
+  <h2>📝 Questões de Revisão para Olimpíada</h2>
+
+  <div class="question-block">
+    <h4>Módulo 1 — A Terra</h4>
+    <ol>
+      <li>Por que a Terra é chamada de "geoide" e não de esfera perfeita?</li>
+      <li>Explique a diferença entre rotação e translação. Quais são suas consequências?</li>
+      <li>Se o eixo da Terra não fosse inclinado, existiriam estações do ano? Explique.</li>
+      <li>O que é o campo magnético terrestre e por que ele é importante para a vida?</li>
+    </ol>
+  </div>
+
+  <div class="question-block">
+    <h4>Módulo 2 — Lua e Sol</h4>
+    <ol start="5">
+      <li>Desenhe e explique as fases da Lua. Em qual fase ocorrem eclipses solares e lunares?</li>
+      <li>Por que a Lua causa marés na Terra, mas o Sol (muito mais massivo) causa marés menores?</li>
+      <li>Explique por que eclipses solares totais são raros e só visíveis de regiões pequenas da Terra.</li>
+    </ol>
+  </div>
+
+  <div class="question-block">
+    <h4>Módulo 3 — Sistema Solar</h4>
+    <ol start="8">
+      <li>Qual a diferença entre planetas rochosos e gasosos? Cite exemplos de cada tipo.</li>
+      <li>Por que Plutão deixou de ser considerado planeta em 2006?</li>
+      <li>Converta 4,2 anos-luz para quilômetros. (Use: 1 ano-luz ≈ 9,5 trilhões de km)</li>
+    </ol>
+  </div>
+
+  <div class="question-block">
+    <h4>Módulo 4 — Física Espacial</h4>
+    <ol start="11">
+      <li>Enuncie as três Leis de Kepler e explique cada uma com suas palavras.</li>
+      <li>Um astronauta tem massa de 70 kg. Calcule seu peso na Terra, na Lua e em Júpiter.</li>
+      <li>Explique por que a ISS não cai na Terra, apesar de estar sendo atraída por ela.</li>
+    </ol>
+  </div>
+
+  <div class="question-block">
+    <h4>Módulo 5 — Astronáutica e Céu</h4>
+    <ol start="14">
+      <li>Como usar o Cruzeiro do Sul para encontrar a direção Sul?</li>
+      <li>Cite três utilidades práticas dos satélites artificiais no dia a dia.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- DICAS FINAIS -->
+<div class="final-tips fade-in">
+  <h2>🏆 Dicas Finais para a Olimpíada</h2>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="number">01</div>
+      <p><strong>Leia com atenção</strong><br>Muitas questões têm "pegadinhas" que testam se você entendeu o conceito, não apenas decorou.</p>
+    </div>
+    <div class="tip-card">
+      <div class="number">02</div>
+      <p><strong>Desenhe</strong><br>Faça esquemas para visualizar alinhamentos de eclipses, fases da Lua, estações do ano.</p>
+    </div>
+    <div class="tip-card">
+      <div class="number">03</div>
+      <p><strong>Pense em analogias</strong><br>A gravidade é como um elástico, a órbita é como uma queda contínua.</p>
+    </div>
+    <div class="tip-card">
+      <div class="number">04</div>
+      <p><strong>Fique de olho nas unidades</strong><br>Ano-luz é distância, não tempo! UA é distância, não tempo!</p>
+    </div>
+    <div class="tip-card">
+      <div class="number">05</div>
+      <p><strong>Relacione os conceitos</strong><br>Rotação causa dia/noite E constelações mudarem. Translação causa estações.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="rocket">🚀</div>
+  <p><strong>Boa sorte na Olimpíada, futuro(a) astrônomo(a)!</strong></p>
+  <p style="margin-top: 0.5rem; font-size: 0.8rem;">Apostila elaborada para alunos do 6º Ano — Preparação para Olimpíadas de Astronomia</p>
+</footer>
+
+<script>
+// Generate starfield
+const starfield = document.getElementById('starfield');
+const starCount = 150;
+
+for (let i = 0; i < starCount; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.width = Math.random() * 3 + 1 + 'px';
+  star.style.height = star.style.width;
+  star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+  star.style.animationDelay = Math.random() * 5 + 's';
+  starfield.appendChild(star);
+}
+
+// Shooting stars
+function createShootingStar() {
+  const shooting = document.createElement('div');
+  shooting.className = 'shooting-star';
+  shooting.style.top = Math.random() * 50 + '%';
+  shooting.style.left = Math.random() * 50 + '%';
+  shooting.style.animationDuration = (Math.random() * 2 + 2) + 's';
+  starfield.appendChild(shooting);
+  setTimeout(() => shooting.remove(), 4000);
+}
+setInterval(createShootingStar, 5000);
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
